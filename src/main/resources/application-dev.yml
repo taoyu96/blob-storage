@@ -1,0 +1,30 @@
+swagger:
+  enable: true
+
+server:
+  port: 18087
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    org.springframework: info
+    com.bluemyth: debug
+
+spring:
+  servlet:
+    multipart: #上传限制
+      max-file-size: 100MB
+      max-request-size: 110MB
+  mvc: #静态资源代理url
+    static-path-pattern: /**
+  resources: #保留原有默认静态路径
+    static-locations: classpath:/META-INF/resources/,classpath:/static/,classpath:/public/,classpath:/resources/,file:${blob-storage.config.localfs.root-paths}
+
+#存储配置
+blob-storage:
+  config:
+    proxy-url: http://127.0.0.1:18087/
+    blobType: localfs
+    localfs:
+      root-paths: F:/localfs/
