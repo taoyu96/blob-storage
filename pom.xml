@@ -134,6 +134,29 @@
                 </executions>
             </plugin>
 
+            <!--版本管理-->
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <verbose>true</verbose>
+                    <dateFormat>yyyyMMddHHmmss</dateFormat>
+                    <!--git版本，默认8个字符-->
+                    <abbrevLength>8</abbrevLength>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/version.txt</generateGitPropertiesFilename>
+                    <format>txt</format>
+                    <injectAllReactorProjects>true</injectAllReactorProjects>
+                    <includeOnlyProperties>git.build.version,git.build.time,git.branch,git.commit.time,git.commit.id.abbrev</includeOnlyProperties>
+                </configuration>
+            </plugin>
         </plugins>
 
     </build>
