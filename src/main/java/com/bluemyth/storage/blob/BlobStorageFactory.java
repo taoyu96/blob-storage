@@ -56,15 +56,21 @@ public class BlobStorageFactory {
 
     public Map<String, String> render(String id) {
         Map<String, String> blobInfo = new HashMap<>();
-        String proxyUrl = this.config.getConfig().get(BlobConfig.BLOB_STORAGE_PROXY_URL);
-        String[] args = id.split("/");
-        String fileName = args[args.length - 1];
-        String fileId = fileName.split("\\.")[0];
+        String currentBlobType = this.config.getConfig().get(BlobConfig.BLOB_BLOBTYPE);
+        if (BlobType.localfs.getType().equals(currentBlobType)) {
+            String proxyUrl = this.config.getConfig().get(BlobConfig.BLOB_STORAGE_PROXY_URL);
+            String[] args = id.split("/");
+            String fileName = args[args.length - 1];
+            String fileId = fileName.split("\\.")[0];
 
-        blobInfo.put("fullUrl", proxyUrl + id);
-        blobInfo.put("id", id);
-        blobInfo.put("fileId", fileId);
-        blobInfo.put("fileName", fileName);
+            blobInfo.put("fullUrl", proxyUrl + id);
+            blobInfo.put("id", id);
+            blobInfo.put("fileId", fileId);
+            blobInfo.put("fileName", fileName);
+        } else {
+            blobInfo.put("id", id);
+        }
+
         return blobInfo;
     }
 }

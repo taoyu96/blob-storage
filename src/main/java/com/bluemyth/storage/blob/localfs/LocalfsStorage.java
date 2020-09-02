@@ -113,7 +113,7 @@ public class LocalfsStorage implements BlobStorage {
      */
     @Override
     public String put(File file, String id, String type, int bizType) throws Exception {
-        if (bizType < 0) bizType = 1000;
+        if (bizType <= 0) bizType = 1000;
         type = LocalfsUtil.getFileExtType(file.getName());
         String rootPath = getRootPath();
         String path = LocalfsUtil.getBizPath(bizType);
@@ -167,7 +167,7 @@ public class LocalfsStorage implements BlobStorage {
      */
     @Override
     public String put(InputStream input, String id, String type, int bizType) throws Exception {
-        if (bizType < 0) bizType = 1000;
+        if (bizType <= 0) bizType = 1000;
         type = LocalfsUtil.getFileExtType(type);
         String rootPath = getRootPath();
         String path = LocalfsUtil.getBizPath(bizType);
@@ -226,7 +226,7 @@ public class LocalfsStorage implements BlobStorage {
     public String put(byte[] bytes, String id, String type, int bizType) throws Exception {
         OutputStream output = null;
         try {
-            if (bizType < 0) bizType = 1000;
+            if (bizType <= 0) bizType = 1000;
             type = LocalfsUtil.getFileExtType(type);
             String rootPath = getRootPath();
             String path = LocalfsUtil.getBizPath(bizType);

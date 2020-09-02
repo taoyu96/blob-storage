@@ -62,12 +62,32 @@ public class StorageController {
 
     @ApiOperation(value = "文档上传服务", notes = "文档上传服务")
     @PostMapping("upload")
-    public ServiceResult upload(@RequestParam("file") MultipartFile file) {
+    public ServiceResult upload(@RequestParam("file") MultipartFile file, Integer bizType) {
         if (file.isEmpty()) {
             return ServiceResult.ofFailed("上传失败，请选择文件");
         }
+        if (bizType == null) {
+            bizType = 1000;
+        }
         try {
-            String id = blobStorageFactory.getBlobStorage().put(file.getBytes(), "", file.getOriginalFilename());
+            String id = blobStorageFactory.getBlobStorage().put(file.getBytes(), "", file.getOriginalFilename(), bizType);
+            return ServiceResult.ofSuccess(blobStorageFactory.render(id));
+        } catch (Exception e) {
+            return ServiceResult.ofFailed("上传失败 ", e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "文档上传服务(二进制)", notes = "文档上传服务(二进制)")
+    @PostMapping("upload1")
+    public ServiceResult upload1(@RequestParam("bytes") byte[] bytes, @RequestParam("fileName") String fileName, Integer bizType) {
+        if (bytes.length == 0) {
+            return ServiceResult.ofFailed("上传失败，文件内容为空");
+        }
+        if (bizType == null) {
+            bizType = 1000;
+        }
+        try {
+            String id = blobStorageFactory.getBlobStorage().put(bytes, "", fileName, bizType);
             return ServiceResult.ofSuccess(blobStorageFactory.render(id));
         } catch (Exception e) {
             return ServiceResult.ofFailed("上传失败 ", e.getMessage());
